@@ -1,0 +1,20 @@
+																		
+Ce site MyBook fait en : PHP / HTML / CSS / SQL. Il integre :
+
+- Un Carousel
+
+- Un Flux Rss
+
+- Une base de donnees MySql.
+
+- Liste des livres lu(fiche technique : titre , auteur, nombre de tome, annnee de parution, resume, nombre de page) avec modification ou suppression
+
+- Ajout de nouveau livre
+
+- Statistique : Total Livre, Total par Theme, Total par Auteur
+
+- Export de la base de donnees
+
+- Moteur de recherche par Nom / Auteur
+
+- Le Texte est maintenant gere par l'application elle meme et non dans le code. Cela fonctionne grace un fichier texte.
