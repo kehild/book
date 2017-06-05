@@ -20,7 +20,7 @@ section {
 	margin-right: 100px;
 	opacity: 1;
 	border-width: 5pt;
-	font-size: 14px;
+	font-size: 12px;
 	margin-top: 10px;
 	color: white;
 	margin-bottom:10px;
@@ -119,7 +119,7 @@ li a {
 /* Caption text */
 .text {
   color: #010101;
-  font-size: 13px;
+  font-size: 12px;
   padding: 8px 12px;
   position: absolute;
   bottom: 8px;
@@ -130,7 +130,7 @@ li a {
 /* Number text (1/3 etc) */
 .numbertext {
   color: #010101;
-  font-size: 13px;
+  font-size: 12px;
   padding: 8px 12px;
   position: absolute;
   top: 0;
@@ -166,8 +166,8 @@ div.transbox {
 div.transbox p {
 
   margin: 5%;
-  font-weight: bold;
-  color: #000000;
+  //font-weight: bold;
+  //color: #000000;
 }
 
 /* Menu saisie */
@@ -197,8 +197,8 @@ div {
     border-radius: 5px;
     background-color: transparent;
     padding: 20px;
-	color: white;
-	text-align:  center;
+    color: white;
+    text-align:  center;
 	
 }
 
@@ -208,9 +208,9 @@ div {
     border-radius: 2px;
     background-color: #333;
     padding: 20px;
-	color: white;
-	width: 40%;
-	border-radius : 5px 5px 5px 5px;
+    color: white;
+    width: 40%;
+    border-radius : 5px 5px 5px 5px;
 	
 }
 /* rajout de thèmes et auteur déjà en base */
@@ -236,9 +236,10 @@ th{
 tr:nth-child(even){background-color: #f2f2f2}
 
 #doc{
-	color:black;
-	text-align:  left;
-	font-weight:bold;
+
+    color:black;
+    text-align:  left;
+    font-weight:bold;
 }
 
 #param{

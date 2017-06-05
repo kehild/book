@@ -10,9 +10,12 @@ include_once "bdd/connexion.php";
 				$livre = new Webservice($db);
 				$livre->TotalTome($db);
 				echo "</br>";
+                                $livre->NombreAuteur($db);
+                                echo "</br>";
 				$livre->MoyenneLivre($db);
 				echo "</br>";
 				$livre->TotalLivreFormat($db);
+				echo "</br>";
 			?>
 		</p>
 	</div>

@@ -27,15 +27,23 @@
 		</li>
 		<li style="float:left"><a href="actualite.php">Actualité</a><li>
 		
-		<form style="width:400px; float: left; margin-top: 10px;" action="search.php" method="post">
-			<span style=" color:white; text-align: center;">Recherche par nom :</span> 
-			<input "type="text" id="search" name="search"/>
-		</form>
+
 		
-		<form style="width:400px; float: left; margin-top: 10px;" action="searchAuteur.php" method="post">
-			<span style=" color:white; text-align: center;">Recherche par Auteur :</span> 
-			<input "type="text" id="search" name="search"/>
-		</form>
+
+                    
+                <li style="float: left"><a href="#">Recherche par Titre</a>
+			<ul>
+                            <form style="width:300px; float: left; margin-top: 10px;" action="search.php" method="post">
+                                <span style=" color:white; text-align: center;">Recherche par nom :</span> 
+                                <input type="text" id="search" name="search"/>
+                            </form>
+                            
+                            <form style="width:300px; float: left; margin-top: 10px;" action="searchAuteur.php" method="post">
+                                <span style=" color:white; text-align: center;">Recherche par Auteur :</span> 
+                                <input type="text" id="search" name="search"/>
+                            </form>
+			</ul>
+		</li>
 		
 		
 		<li style="float:right"><a href="information.php">Information</a></li>

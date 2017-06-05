@@ -214,20 +214,61 @@ public function TotalLivreTheme($db){
   
 public function TotalAuteur($db){
 	
-		$stmt = $db->prepare("select auteur, SUM(tome) from book group by auteur order by SUM(tome) DESC");
-		$stmt->execute();
-		
+		//$stmt = $db->prepare("select auteur, SUM(tome) from book group by auteur order by SUM(tome) DESC");
+		//$stmt->execute();
+                echo '<div class="pagination">';
+                $messagesParPage=15;
+                $retour_total=$db->prepare('SELECT COUNT(DISTINCT auteur) AS total FROM book');
+                $retour_total->execute();
+                $donnees_total=$retour_total->fetch(); 
+                $total=$donnees_total['total'];
+                $nombreDePages=ceil($total/$messagesParPage);
+
+                if(isset($_GET['page'])){ 
+
+                     $pageActuelle=intval($_GET['page']);
+
+                     if($pageActuelle>$nombreDePages){
+
+                         $pageActuelle=$nombreDePages;
+                     }
+                } else{
+                     $pageActuelle=1;
+                }
+
+                $premiereEntree=($pageActuelle-1)*$messagesParPage; 
+                                                
+                $retour_messages=$db->prepare("select auteur, SUM(tome) from book group by auteur order by SUM(tome) DESC LIMIT ".$premiereEntree.", ".$messagesParPage."");
+                $retour_messages->execute();
 			echo "<table id='dernier' align='center'>";
-				echo "<tr><th>"; echo "Total Nombre de Livre lu par Auteur"; echo "</th>";
+                                echo "<tr><th>"; echo "Total Nombre de Livre lu par Auteur"; echo "</th>";
 				echo "<th>"; echo "Auteur"; echo "</th></tr>";
 		
-		foreach(($stmt->fetchAll()) as $toto){
-
-				echo "<tr><th>"; echo $toto['SUM(tome)']; echo "</th>";
-				echo "<th>"; echo utf8_encode($toto['auteur']); echo "</th></tr>";
-		}
+		while($donnees_messages=$retour_messages->fetch()){ 
+				echo "<tr><th>"; echo $donnees_messages['SUM(tome)']; echo "</th>";
+				echo "<th>"; echo utf8_encode($donnees_messages['auteur']); echo "</th></tr>";
+		
+                                $num=$num + 1;
+                }
 		echo "</table>";
-	} 
+
+
+        echo '<p align="center">Page : '; //Pour l'affichage, on centre la liste des pages
+
+        for($i=1; $i<=$nombreDePages; $i++){ //On fait notre boucle
+
+             //On va faire notre condition
+             if($i==$pageActuelle){ //Si il s'agit de la page actuelle...
+
+                 echo ' [ '.$i.' ] '; 
+             }	
+             else{
+                         echo ' <a href="statistiqueAuteur.php?page='.$i.'">'.$i.'</a> ';
+             }
+        }
+        echo '</p>';
+    echo '</div>';	
+}   
   
  public function TotalLivreDateLecture($db){
 	
@@ -525,6 +566,22 @@ public function UpdateLivre($db){
 			
 			}
 }
+
+ public function NombreAuteur($db){
+	
+		$stmt = $db->prepare("SELECT COUNT(DISTINCT auteur) FROM book");
+		$stmt->execute();
+		//  page, SUM(page) est la cause
+			echo "<table id='dernier' align='center'>";
+				echo "<tr><th>"; echo "Total Nombre Auteur"; echo "</th></tr>";
+		
+		foreach(($stmt->fetchAll()) as $toto){
+
+				echo "<tr><th>"; echo $toto['COUNT(DISTINCT auteur)']; echo "</th></tr>";			
+
+				}
+			echo "</table>";
+	} 
 
 function dumpMySQL($db, $mode){
 			
