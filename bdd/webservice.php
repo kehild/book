@@ -287,7 +287,7 @@ public function TotalAuteur($db){
 				}
 			echo "</table>";
 	} 
-  
+  /*
  public	function ThemeConnu($db){
 		
 		$stmt = $db->prepare("SELECT theme FROM book GROUP BY theme"); 
@@ -302,8 +302,8 @@ public function TotalAuteur($db){
 		echo "</select>";
 		
 	} 
-  
-	
+  */
+/*	
 public	function AuteurConnu($db){
 		
 		$stmt = $db->prepare("SELECT auteur FROM book GROUP BY auteur"); 
@@ -318,7 +318,7 @@ public	function AuteurConnu($db){
 		echo "</select>";
 		
 	}
-	  
+*/	  
   	function ListeTheme($db){
 		
 		try {

@@ -1,3 +1,6 @@
+<script type="text/javascript" src="./jquery.min.js"></script>
+<script type="text/javascript" src="./jquery.autocomplete.min.js"></script>
+
 ﻿<?php
 include_once "header.php";
 include_once "bdd/connexion.php";
@@ -27,7 +30,7 @@ if (isset($_POST['Valider'])) {
 	</br>
     	<label for="auteur">Auteur</label>
     	</br>
-	<input type="text" id="auteur" name="auteur">&nbsp;<?php $livre = new Webservice($db); $livre->AuteurConnu($db); ?>
+	<input type="text" id="auteur" name="auteur">&nbsp;
 	</br>
 	<label for="annee">Année</label>
     	</br>
@@ -35,7 +38,7 @@ if (isset($_POST['Valider'])) {
 	</br>
 	<label for="theme">Thème</label>
     	</br>
-	<input type="text" id="theme" name="theme">&nbsp;<?php $livre = new Webservice($db); $livre->ThemeConnu($db); ?>
+	<input type="text" id="theme" name="theme">&nbsp;<?php // $livre = new Webservice($db); $livre->ThemeConnu($db); ?>
 	</br>
 	<label for="format">Format</label>
    	 </br>
@@ -59,3 +62,20 @@ if (isset($_POST['Valider'])) {
 <?php
 	include_once"footer.php";
 ?>
+
+<script>
+$(document).ready(function() {
+    $('#auteur').autocomplete({
+        serviceUrl: 'auto.php',
+        dataType: 'json'
+    });
+});
+
+$(document).ready(function() {
+    $('#theme').autocomplete({
+        serviceUrl: 'auto_theme.php',
+        dataType: 'json'
+    });
+});
+ 
+</script>    

@@ -217,12 +217,6 @@ div {
     border-radius : 5px 5px 5px 5px;
 	
 }
-/* rajout de thèmes et auteur déjà en base */
-#theme, #themes,#auteurs, #auteur{
-
-	width: 45%;
-	
-}
 
 /* liste tableau sauf celui du header */ 
 
@@ -319,6 +313,31 @@ table#dernier{
 th{
 	font-size:12px;
 }
+
+}
+
+.autocomplete-suggestions { 
+    
+    border: 1px solid #999; 
+    background: #f4eaea; 
+    overflow: auto; 
+    
+}
+.autocomplete-suggestion { 
+    
+    padding: 2px 5px; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    color: black;
+}
+.autocomplete-selected { 
+    
+    background: #F0F0F0; 
+}
+.autocomplete-suggestions strong { 
+    
+    font-weight: normal; 
+    color: #f24b58; 
 
 }
 
