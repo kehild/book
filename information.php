@@ -23,11 +23,6 @@ include_once "bdd/connexion.php";
 				?>
 			</div>
 		</div>
-		<form method="post" action="">
-			</br>
-			<input type="submit" name="export" value="Exporter la base de données">
-			</br>
-		</form>
 
 	</div>
 </section>
