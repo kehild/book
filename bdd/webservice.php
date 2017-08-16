@@ -45,7 +45,7 @@ public function DernierLivreRentree($db){
 		try {	
 				
 			$resume = $_POST['resume'];
-			$resume = str_replace("'", " ", $resume);
+			$resume = str_replace("'", "\'", $resume);
 			$resume = str_replace("’", " ", $resume);
 			
 			$sql = "Insert INTO book (titre, auteur, annee, theme, resume, tome, page, format, date_lecture) VALUES ('$titre','$auteur','$annee','$theme',' ".$resume."','$tome','$page','$format','$date_lecture')";
