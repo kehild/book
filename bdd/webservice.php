@@ -42,7 +42,7 @@ public function DernierLivreRentree($db){
 	}   
    
  
-  public function SaisieLivre($db,$titre,$tome,$page,$auteur,$annee,$theme,$format,$date_lecture){
+  public function SaisieLivre($db,$titre,$tome,$page,$auteur,$annee,$theme,$format,$date_lecture,$image){
 		
 		try {	
 			
@@ -54,7 +54,7 @@ public function DernierLivreRentree($db){
 			$resume = str_replace("'", "\'", $resume);
 			$resume = str_replace("’", " ", $resume);
 			
-			$sql = "Insert INTO book (titre, auteur, annee, theme, resume, tome, page, format, date_lecture) VALUES ('$titre','$auteur','$annee','$theme',' ".$resume."','$tome','$page','$format','$date_lecture')";
+			$sql = "Insert INTO book (titre, auteur, annee, theme, resume, tome, page, format, date_lecture, image) VALUES ('$titre','$auteur','$annee','$theme',' ".$resume."','$tome','$page','$format','$date_lecture','$image')";
 			$db->exec($sql);
 			echo "Insertion réussi";
 
@@ -223,7 +223,7 @@ public function TotalLivreTheme($db){
 public function TotalAuteur($db){
 	
                 echo '<div class="pagination">';
-                $messagesParPage=15;
+                $messagesParPage=80;
                 $retour_total=$db->prepare('SELECT COUNT(DISTINCT auteur) AS total FROM book');
                 $retour_total->execute();
                 $donnees_total=$retour_total->fetch(); 
@@ -253,18 +253,17 @@ public function TotalAuteur($db){
 
                                 
                 $nombre_de_lignes = 1;
-                while ($nombre_de_lignes <= $retour_total){
-               
+  
                 while($donnees_messages=$retour_messages->fetch()){ 
                              echo "<tr><th>"; echo "$nombre_de_lignes"; echo "</th>";
 				echo "<th>"; echo $donnees_messages['SUM(tome)']; echo "</th>";
 				echo "<th>"; echo utf8_encode($donnees_messages['auteur']); echo "</th></tr>";
 		
                                
-                                $nombre_de_lignes++;
+                                $nombre_de_lignes = $nombre_de_lignes + 1;
                 }
                 
-                }
+            
                         echo "</table>";
 
 
