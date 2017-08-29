@@ -20,7 +20,7 @@ include_once "header.php";
 		fwrite($myfile, $_POST['test']); // Le contenu du textarea est copier dans le fichier
 		fclose($myfile);
 		
-		echo '<meta http-equiv="refresh" content="0;URL=Web/help.php">';
+		echo '<meta http-equiv="refresh" content="0;URL=information.php">';
 	}
 include_once "footer.php";
 ?>

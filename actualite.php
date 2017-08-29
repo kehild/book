@@ -7,7 +7,7 @@ include_once "header.php";
 	<div class="transbox">
 	
 	<?php
-		 $xml=("http://jeunesse.actualitte.com/flux-rss-news.xml");
+		 $xml=("https://www.actualitte.com/flux/rss/categorie/lecture-numerique.xml");
 
 		$xmlDoc = new DOMDocument();
 		$xmlDoc->load($xml);

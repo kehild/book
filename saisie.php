@@ -8,7 +8,8 @@ include_once "bdd/webservice.php";
 
 if (isset($_POST['Valider'])) {
 	$livre = new Webservice($db);
-	$livre->SaisieLivre($db,$_POST['titre'],$_POST['tome'],$_POST['page'],$_POST['auteur'],$_POST['annee'],$_POST['theme'],$_POST['format'],$_POST['date_lecture']);	
+        $livre->CadreImage(); 
+	$livre->SaisieLivre($db,$_POST['titre'],$_POST['tome'],$_POST['page'],$_POST['auteur'],$_POST['annee'],$_POST['theme'],$_POST['format'],$_POST['date_lecture'],$_POST['file']);	
 }
 
 ?>
@@ -55,6 +56,11 @@ if (isset($_POST['Valider'])) {
 	<label for="date_lecture">Date lecture</label>
     	</br>
 	<input type="text" id="date_lecture" name="date_lecture">
+        </br>
+        <label for="image">Image</label>
+	</br>
+	<input type="file" id="file" name="file">
+	</br>
     <input type="submit" name="Valider" value="Valider">
   </form>
 </div>

@@ -3,13 +3,6 @@ include_once "header.php";
 include_once "bdd/webservice.php";
 include_once "bdd/connexion.php";
 
- 	if (isset($_POST['export'])) {
-		
-		$livre = new Webservice($db);
-		$livre->dumpMySQL($db, 3);
-		
-	}	
-
 ?>
 <section>
 	<div class="transbox">
@@ -23,8 +16,16 @@ include_once "bdd/connexion.php";
 				?>
 			</div>
 		</div>
-
+            <div class="site">
+                <h2>Lien Site d'information</h2>
+                <a href="https://booknode.com" target="_blank">Booknode</a>
+                <h2>Lien Site de ddl</h2>
+                <a href="https://www.ebook-gratuit.co" target="_blank">EBook Gratuit</a></br></br>
+                <a href="http://www.pearltrees.com/kanalista/livres/id11779166" target="_blank">Mes Livres</a></br></br>
+                <a href="http://roman-gratuit.net" target="_blank">Roman Gratuit</a>
+            </div>
 	</div>
+
 </section>
 
 <?php

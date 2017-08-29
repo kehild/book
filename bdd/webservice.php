@@ -16,8 +16,9 @@ public function DernierLivreRentree($db){
 			foreach(($stmt->fetchAll()) as $donnees){
 						
 			echo "<table id='dernier' align='center'>";
-						
-			echo "<tr><th>"; echo "Titre"; echo "</th>";
+			
+                        echo "<tr><th>"; echo "Couverture"; echo "</th>";
+			echo "<th>"; echo "Titre"; echo "</th>";
 			echo "<th>"; echo "Tome"; echo "</th>";
 			echo "<th>"; echo "Auteur"; echo "</th>";
 			echo "<th>"; echo "Nb Page"; echo "</th>";
@@ -25,8 +26,9 @@ public function DernierLivreRentree($db){
 			echo "<th>"; echo "Thème"; echo "</th>";
 			echo "<th>"; echo "Résumé"; echo "</th>";
 			echo "<th>"; echo "Format"; echo "</th></tr>";
-						
-			echo "<tr><th>"; echo $donnees['titre']; echo "</th>";
+			
+                        echo "<tr><th>"; echo "<img src='image/couverture/".$donnees['image']."'>"; echo "</th>";
+			echo "<th>"; echo $donnees['titre']; echo "</th>";
 			echo "<th>"; echo $donnees['tome']; echo "</th>";
 			echo "<th>"; echo $donnees['auteur']; echo "</th>";
 			echo "<th>"; echo $donnees['page']; echo "</th>";
@@ -43,7 +45,11 @@ public function DernierLivreRentree($db){
   public function SaisieLivre($db,$titre,$tome,$page,$auteur,$annee,$theme,$format,$date_lecture){
 		
 		try {	
-				
+			
+                        $titre = $_POST['titre'];
+                        $titre = str_replace("'", "\'", $titre);
+			$titre = str_replace("’", " ", $titre);           
+                        
 			$resume = $_POST['resume'];
 			$resume = str_replace("'", "\'", $resume);
 			$resume = str_replace("’", " ", $resume);
@@ -89,7 +95,8 @@ $retour_messages->execute();
 
 		echo "<table id='dernier' align='center'>";
 		
-		echo "<tr><th>"; echo "Titre"; echo "</th>";
+                echo "<tr><th>"; echo "Couverture"; echo "</th>";
+		echo "<th>"; echo "Titre"; echo "</th>";
 		echo "<th>"; echo "Tome"; echo "</th>";
 		echo "<th>"; echo "Auteur"; echo "</th>";
 		echo "<th>"; echo "NB Page"; echo "</th>";
@@ -103,7 +110,8 @@ $retour_messages->execute();
 
 		while($donnees_messages=$retour_messages->fetch()){ 
 		
-		echo "<tr><th>"; echo stripslashes($donnees_messages['titre']); echo "</th>";
+                echo "<tr><th>"; echo stripslashes("<img src='image/couverture/".$donnees_messages['image']."'>"); echo "</th>";
+		echo "<th>"; echo stripslashes($donnees_messages['titre']); echo "</th>";
 		echo "<th>"; echo stripslashes($donnees_messages['tome']); echo "</th>";
 		echo "<th>"; echo stripslashes($donnees_messages['auteur']); echo "</th>";
 		echo "<th>"; echo stripslashes($donnees_messages['page']); echo "</th>";
@@ -151,7 +159,7 @@ public function TotalLivreTheme($db){
 
 				echo "<tr><th>"; echo $toto['COUNT(theme)']; echo "</th>";
 				echo "<th>"; echo utf8_encode($toto['theme']); echo "</th>"; 			
-				echo "<th>"; echo '<a href="?theme='.$toto['theme'].'" ><img src="image/modifier.png"></a>'; echo "</th> </tr>"; 
+				echo "<th>"; echo '<a href="DetailTheme.php?theme='.$toto['theme'].'" ><img src="image/modifier.png"></a>'; echo "</th> </tr>"; 
 			
 		}
 			echo "</table>";
@@ -214,8 +222,6 @@ public function TotalLivreTheme($db){
   
 public function TotalAuteur($db){
 	
-		//$stmt = $db->prepare("select auteur, SUM(tome) from book group by auteur order by SUM(tome) DESC");
-		//$stmt->execute();
                 echo '<div class="pagination">';
                 $messagesParPage=15;
                 $retour_total=$db->prepare('SELECT COUNT(DISTINCT auteur) AS total FROM book');
@@ -241,16 +247,25 @@ public function TotalAuteur($db){
                 $retour_messages=$db->prepare("select auteur, SUM(tome) from book group by auteur order by SUM(tome) DESC LIMIT ".$premiereEntree.", ".$messagesParPage."");
                 $retour_messages->execute();
 			echo "<table id='dernier' align='center'>";
-                                echo "<tr><th>"; echo "Total Nombre de Livre lu par Auteur"; echo "</th>";
+                                echo "<tr><th>"; echo "Classement"; echo "</th>";
+                                echo "<th>"; echo "Total Nombre de Livre lu par Auteur"; echo "</th>";
 				echo "<th>"; echo "Auteur"; echo "</th></tr>";
-		
-		while($donnees_messages=$retour_messages->fetch()){ 
-				echo "<tr><th>"; echo $donnees_messages['SUM(tome)']; echo "</th>";
+
+                                
+                $nombre_de_lignes = 1;
+                while ($nombre_de_lignes <= $retour_total){
+               
+                while($donnees_messages=$retour_messages->fetch()){ 
+                             echo "<tr><th>"; echo "$nombre_de_lignes"; echo "</th>";
+				echo "<th>"; echo $donnees_messages['SUM(tome)']; echo "</th>";
 				echo "<th>"; echo utf8_encode($donnees_messages['auteur']); echo "</th></tr>";
 		
-                                $num=$num + 1;
+                               
+                                $nombre_de_lignes++;
                 }
-		echo "</table>";
+                
+                }
+                        echo "</table>";
 
 
         echo '<p align="center">Page : '; //Pour l'affichage, on centre la liste des pages
@@ -259,13 +274,15 @@ public function TotalAuteur($db){
 
              //On va faire notre condition
              if($i==$pageActuelle){ //Si il s'agit de la page actuelle...
-
+                   
                  echo ' [ '.$i.' ] '; 
              }	
              else{
                          echo ' <a href="statistiqueAuteur.php?page='.$i.'">'.$i.'</a> ';
              }
         }
+        
+        
         echo '</p>';
     echo '</div>';	
 }   
@@ -328,7 +345,9 @@ public	function AuteurConnu($db){
 		$stmt->execute();
 
 		echo "<table id='dernier' align='center'>";
-		echo "<tr><th>"; echo "Titre"; echo "</th>";
+		
+                echo "<tr><th>"; echo "Couverture"; echo "</th>"; 
+                echo "<th>"; echo "Titre"; echo "</th>";
 		echo "<th>"; echo "Tome"; echo "</th>";
 		echo "<th>"; echo "Auteur"; echo "</th>";
 		echo "<th>"; echo "NB Page"; echo "</th>";
@@ -338,8 +357,9 @@ public	function AuteurConnu($db){
 		echo "<th>"; echo "Résumé"; echo "</th></tr>";
 
 		foreach(($stmt->fetchAll()) as $tata){
-			
-		echo "<tr><th>"; echo stripslashes($tata['titre']); echo "</th>";
+		
+                echo "<tr><th>"; echo stripslashes("<img src='image/couverture/".$tata['image']."'>"); echo "</th>";
+		echo "<th>"; echo stripslashes($tata['titre']); echo "</th>";
 		echo "<th>"; echo stripslashes($tata['tome']); echo "</th>";
 		echo "<th>"; echo stripslashes($tata['auteur']); echo "</th>";
 		echo "<th>"; echo stripslashes($tata['page']); echo "</th>";
@@ -380,8 +400,9 @@ public	function AuteurConnu($db){
 		$nb = 0;
 							
 		echo "<table id='dernier' align='center'>";
-							
-		echo "<tr><th>"; echo "Titre"; echo "</th>";
+			
+                echo "<tr><th>"; echo "Couverture"; echo "</th>";
+		echo "<th>"; echo "Titre"; echo "</th>";
 		echo "<th>"; echo "Tome"; echo "</th>";
 		echo "<th>"; echo "Auteur"; echo "</th>";
 		echo "<th>"; echo "NB Page"; echo "</th>";
@@ -392,8 +413,9 @@ public	function AuteurConnu($db){
 		echo "<th>"; echo "Supprimer"; echo "</th></tr>";
 							
 		while($donnees = $resultat->fetch(PDO::FETCH_ASSOC)) {       
-																	
-		echo "<tr><th>"; echo $donnees['titre']; echo "</th>";
+				
+                echo "<tr><th>"; echo stripslashes("<img src='image/couverture/".$donnees['image']."'>"); echo "</th>";    
+		echo "<th>"; echo $donnees['titre']; echo "</th>";
 		echo "<th>"; echo $donnees['tome']; echo "</th>";
 		echo "<th>"; echo $donnees['auteur']; echo "</th>";
 		echo "<th>"; echo $donnees['page']; echo "</th>";
@@ -434,8 +456,9 @@ public function searchAuteur($db){
 		$nb = 0;
 								
 		echo "<table id='dernier' align='center'>";
-						
-		echo "<tr><th>"; echo "Titre"; echo "</th>";
+		
+                echo "<tr><th>"; echo "Couverture"; echo "</th>";
+		echo "<th>"; echo "Titre"; echo "</th>";
 		echo "<th>"; echo "Tome"; echo "</th>";
 		echo "<th>"; echo "Auteur"; echo "</th>";
 		echo "<th>"; echo "NB Page"; echo "</th>";
@@ -445,9 +468,10 @@ public function searchAuteur($db){
 		echo "<th>"; echo "Modifier"; echo "</th>";
 		echo "<th>"; echo "Supprimer"; echo "</th></tr>";
 					
-		while($donnees = $resultat->fetch(PDO::FETCH_ASSOC)) {       
-									
-		echo "<tr><th>"; echo $donnees['titre']; echo "</th>";
+		while($donnees = $resultat->fetch(PDO::FETCH_ASSOC)) {     
+                    
+		echo "<tr><th>"; echo stripslashes("<img src='image/couverture/".$donnees['image']."'>"); echo "</th>";							
+		echo "<th>"; echo $donnees['titre']; echo "</th>";
 		echo "<th>"; echo $donnees['tome']; echo "</th>";
 		echo "<th>"; echo $donnees['auteur']; echo "</th>";
 		echo "<th>"; echo $donnees['page']; echo "</th>";
@@ -496,7 +520,7 @@ public function modification($db){
 		</br>
 		<label for="titre">Titre</label>
 		</br>
-		<input type="text" id="titre" name="titre" value="<?php echo utf8_encode($toto['titre']); ?>">
+		<input type="text" id="titre" name="titre" value="<?php echo $toto['titre']; ?>">
 		</br>
 		<label for="tome">Nombre Tome</label>
 		</br>
@@ -534,7 +558,11 @@ public function modification($db){
 		<label for="resume">Résumé</label>
 		</br>
 		<textarea name="resume" rows="6" cols="60"><?php echo $toto['resume']; ?></textarea>
-						
+                </br>
+                <label for="image">Image</label>
+		</br>
+		<input type="text" id="image" name="image" value="<?php echo $toto['image']; ?>">
+		</br>
 		<input type="submit" id="Modifier" name="Modifier" value="Modifier">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="submit" id="Annuler" name="Annuler" value="Annuler">
@@ -549,10 +577,28 @@ public function UpdateLivre($db){
 		try {
 				
 				$resume = $_POST['resume'];
-				$resume = str_replace("'", " ", $resume);
-				$resume = str_replace("’", " ", $resume);
+                                $resume = str_replace("'", "\'", $resume);
+                                $resume = str_replace("’", " ", $resume);
+                                
+                                $test = '/var/www/html/book/image/couverture/'.$_POST['image'].'';
+                                chmod("$test", 0777);
+                                
+                                /* modification de la taille de la couverture */
+                                
+                                $source = imagecreatefromjpeg('image/couverture/'.$_POST['image'].''); // La photo est la source
+                                $destination = imagecreatetruecolor(111, 177); // On crée la miniature vide
+                                // Les fonctions imagesx et imagesy renvoient la largeur et la hauteur d une image
+                                $largeur_source = imagesx($source);
+                                $hauteur_source = imagesy($source);
+                                $largeur_destination = imagesx($destination);
+                                $hauteur_destination = imagesy($destination);
+                                // On crée la nouvelle image
+                                imagecopyresampled($destination, $source, 0, 0, 0, 0, $largeur_destination, $hauteur_destination, $largeur_source, $hauteur_source);
+                                // On enregistre l'image avec la nouvelle taille
+                                //imagejpeg($destination, $test);
+                                imagejpeg($destination, 'image/couverture/'.$_POST['image'].'');                        
 				
-				$sql = "UPDATE book SET titre='".$_POST['titre']."',auteur='".$_POST['auteurss']."',annee='".$_POST['annee']."',theme='".$_POST['themess']."', resume='".$resume."',tome='".$_POST['tome']."',page='".$_POST['page']."',format='".$_POST['format']."',date_lecture='".$_POST['date_lecture']."' WHERE id='".$_GET['id']."'";
+				$sql = "UPDATE book SET titre='".$_POST['titre']."',auteur='".$_POST['auteurss']."',annee='".$_POST['annee']."',theme='".$_POST['themess']."', resume='".$resume."',tome='".$_POST['tome']."',page='".$_POST['page']."',format='".$_POST['format']."',date_lecture='".$_POST['date_lecture']."',image='" .$_POST['image']. "' WHERE id='".$_GET['id']."'";
 			
 				$db->exec($sql);
 				
@@ -583,6 +629,26 @@ public function UpdateLivre($db){
 			echo "</table>";
 	} 
 
+        
+          public function CadreImage(){
+		
+		//$test = $_POST['file'];
+		//var_dump($test);
+		
+		$source = imagecreatefromjpeg('image/couverture/'.$_POST['file'].''); // La photo est la source
+		$destination = imagecreatetruecolor(111, 177); // On crée la miniature vide
+		// Les fonctions imagesx et imagesy renvoient la largeur et la hauteur d une image
+		$largeur_source = imagesx($source);
+		$hauteur_source = imagesy($source);
+		$largeur_destination = imagesx($destination);
+		$hauteur_destination = imagesy($destination);
+		// On crée la nouvelle image
+		imagecopyresampled($destination, $source, 0, 0, 0, 0, $largeur_destination, $hauteur_destination, $largeur_source, $hauteur_source);
+		// On enregistre l'image avec la nouvelle taille
+		//imagejpeg($destination, $test);
+		imagejpeg($destination, 'image/couverture/'.$_POST['file'].'');
+		
+	}
   
   public function setDb(PDO $db){
     $this->_db = $db;

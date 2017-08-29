@@ -17,8 +17,8 @@ body{
 
 section {
 	
-	margin-left: 100px;
-	margin-right: 100px;
+	margin-left: 50px;
+	margin-right: 50px;
 	opacity: 1;
 	border-width: 5pt;
 	font-size: 12px;
@@ -163,6 +163,11 @@ div.transbox {
   border: 1px solid;
   opacity: 0.9;
   filter: alpha(opacity=60); /* For IE8 and earlier */
+
+}
+
+div.site{
+    color:black;    
 }
 
 div.transbox p {

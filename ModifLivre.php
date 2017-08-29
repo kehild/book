@@ -1,3 +1,4 @@
+<script type="text/javascript" src="./jquery.min.js"></script>
 <?php
 include_once "header.php";
 include_once "bdd/webservice.php";

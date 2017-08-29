@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/var/www/html/book/information.php</file>
+            <file>file:/var/www/html/book/statistiqueTheme.php</file>
+            <file>file:/var/www/html/book/statistiqueAuteur.php</file>
+            <file>file:/var/www/html/book/DetailTheme.php</file>
+            <file>file:/var/www/html/book/saisie.php</file>
+            <file>file:/var/www/html/book/style.css</file>
+            <file>file:/var/www/html/book/bdd/webservice.php</file>
+        </group>
     </open-files>
 </project-private>
