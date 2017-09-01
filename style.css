@@ -300,8 +300,9 @@ textarea{
 section {
 
 	font-size: 12px;
-	margin-left: 50px;
-	margin-right: 50px;
+	margin-left: 10px;
+	margin-right: 10px;
+	position: absolute;
 }
 
 ul{
@@ -315,6 +316,10 @@ table#dernier{
 
 th{
 	font-size:12px;
+}
+
+#footer{
+	display:none;
 }
 
 }
