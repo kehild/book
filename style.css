@@ -270,6 +270,7 @@ tr:nth-child(even){background-color: #f2f2f2}
 section{
 	margin-left: 10px;
 	margin-right: 10px;
+	position: absolute;
 }
 	
 table#dernier{
@@ -289,6 +290,10 @@ tr:nth-child(even){
 textarea{
 	width: 70%;
 }	
+
+#footer{
+	display:none;
+}
 
 }
 
