@@ -3,6 +3,7 @@ include_once "header.php";
 include_once "bdd/webservice.php";
 include_once "bdd/connexion.php";
 ?>
+<body>
 <section>
 	<div class="transbox">
 		<p style="text-align:left">
@@ -13,7 +14,7 @@ include_once "bdd/connexion.php";
 		</p>
 	</div>
 </section>
-
+</body>
 <?php
 include_once "footer.php";
 ?>

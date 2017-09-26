@@ -4,7 +4,7 @@ include_once "bdd/webservice.php";
 include_once "bdd/connexion.php";
 ?>
 <section>
-	<div class="transbox">
+	<div class="transbox"  style="position:absolute">
 		<p>
 		<?php  
 		$livre = new Webservice($db);

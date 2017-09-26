@@ -264,13 +264,13 @@ tr:nth-child(even){background-color: #f2f2f2}
 .pagination a:hover:not(.active) {background-color: #ddd;}
 
 /* Responsive design */
-
+/*
 @media screen and (max-width: 1000px) {
 
 section{
 	margin-left: 10px;
 	margin-right: 10px;
-	position: absolute;
+	//position: absolute;
 }
 	
 table#dernier{
@@ -307,7 +307,7 @@ section {
 	font-size: 12px;
 	margin-left: 10px;
 	margin-right: 10px;
-	position: absolute;
+	/*position: absolute;*/
 }
 
 ul{
