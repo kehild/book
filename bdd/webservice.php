@@ -648,6 +648,181 @@ public function UpdateLivre($db){
 		imagejpeg($destination, 'image/couverture/'.$_POST['file'].'');
 		
 	}
+        
+        /*   Requete sur Collection Azur  */
+        
+        public function ListeLivreAzur($db){ 
+            
+            echo '<div class="pagination">';
+           $messagesParPage=10;
+           $retour_total=$db->prepare('SELECT COUNT(*) AS total FROM azur');
+           $retour_total->execute();
+           $donnees_total=$retour_total->fetch(); 
+           $total=$donnees_total['total'];
+           $nombreDePages=ceil($total/$messagesParPage);
+
+           if(isset($_GET['page'])){ 
+
+                $pageActuelle=intval($_GET['page']);
+
+                if($pageActuelle>$nombreDePages){
+
+                    $pageActuelle=$nombreDePages;
+                }
+           } else{
+                $pageActuelle=1;
+           }
+
+            $premiereEntree=($pageActuelle-1)*$messagesParPage; 
+
+            $retour_messages=$db->prepare("SELECT * FROM azur ORDER BY titre ASC LIMIT ".$premiereEntree.", ".$messagesParPage."");
+            $retour_messages->execute();
+
+                       echo "<table id='dernier' align='center'>";
+
+                       echo "<tr><th>"; echo "Titre"; echo "</th>";
+                       echo "<th>"; echo "Auteur"; echo "</th>";
+                       echo "<th>"; echo "Nb Page"; echo "</th>";
+                       echo "<th>"; echo "Année"; echo "</th>";
+                       echo "<th>"; echo "Résumé"; echo "</th>";
+                       echo "<th>"; echo "Modifier"; echo "</th>";
+                       echo "<th>"; echo "Supprimer"; echo "</th></tr>";
+
+                       while($donnees_messages=$retour_messages->fetch()){ 
+
+                       echo "<tr><th>"; echo stripslashes($donnees_messages['titre']); echo "</th>";
+                       echo "<th>"; echo stripslashes($donnees_messages['auteur']); echo "</th>";
+                       echo "<th>"; echo stripslashes($donnees_messages['page']); echo "</th>";
+                       echo "<th>"; echo stripslashes($donnees_messages['annee']); echo "</th>";
+                       echo "<th>"; echo stripslashes($donnees_messages['resume']);  echo "</th>";
+                       echo "<th>"; echo stripslashes('<a href="ModifLivreAzur.php?id='.$donnees_messages['id'].'"><img src="image/modifier.png"></a>'); echo "</th>";
+                       echo "<th>"; echo stripslashes('<a href="?id2='.$donnees_messages['id'].'"><img src="image/delete.png"></a>'); echo "</th></tr>";
+
+               }
+                       echo "</table>";
+
+       echo '<p align="center">Page : '; //Pour l'affichage, on centre la liste des pages
+
+       for($i=1; $i<=$nombreDePages; $i++){ //On fait notre boucle
+
+            //On va faire notre condition
+            if($i==$pageActuelle){ //Si il s'agit de la page actuelle...
+
+                echo ' [ '.$i.' ] '; 
+            }	
+            else{
+                        echo ' <a href="azur.php?page='.$i.'">'.$i.'</a> ';
+            }
+       }
+       echo '</p>';
+       echo '</div>';	
+    }
+        
+    public function DeleteLivreAzur($db){
+
+	try {
+	
+		$stm = $db->prepare("delete from azur where id='".$_GET['id2']."'"); 
+		$stm->execute();
+				
+	}catch(Exception $e){
+				
+		echo("<h1>Erreur : Base de données </h1>");
+		die('Erreur : ' .$e->getMessage());
+		
+	}
+	echo '<meta http-equiv="refresh" content="0;URL=azur.php">';
+}
+
+ public function SaisieLivreAzur($db,$titre,$auteur,$page,$annee,$resume){
+		
+		try {	
+			
+                        $titre = $_POST['titre'];
+                        $titre = str_replace("'", "\'", $titre);
+			$titre = str_replace("’", " ", $titre);           
+                        
+			$resume = $_POST['resume'];
+			$resume = str_replace("'", "\'", $resume);
+			$resume = str_replace("’", " ", $resume);
+			
+			$sql = "Insert INTO azur (titre, auteur, page, annee, resume) VALUES ('$titre','$auteur','$page','$annee',' ".$resume." ')";
+			$db->exec($sql);
+			echo "Insertion réussi";
+
+			}
+			catch(Exception $e){
+				
+				echo("<h1>Erreur : Base de données </h1>");
+				die('Erreur : ' .$e->getMessage());
+			
+			}
+  } 
+
+  public function modification_azur($db){
+	 				
+		$stmt = $db->prepare("SELECT * FROM azur where id=' " .$_GET['id']. " '"); 
+		$stmt->execute();
+					
+		foreach(($stmt->fetchAll()) as $toto){
+		?>
+		<div>
+		  <form method="post" action="">
+		</br>
+		<label for="titre">Titre</label>
+		</br>
+		<input type="text" id="titre" name="titre" value="<?php echo $toto['titre']; ?>">
+		</br>
+		<label for="auteur">Auteur</label>
+		</br>
+		<input type="text" id="auteur" name="auteur" value="<?php echo $toto['auteur']; ?>">
+		</br>
+		<label for="page">Nombre Page</label>
+		</br>
+		<input type="text" id="page" name="page" value="<?php echo $toto['page']; ?>">
+		</br>
+		<label for="annee">Année</label>
+		</br>
+		<input type="text" id="annee" name="annee" value="<?php echo $toto['annee']; ?>">
+		</br>
+		<label for="resume">Résumé</label>
+		</br>
+		<textarea name="resume" rows="6" cols="60"><?php echo $toto['resume']; ?></textarea>
+		</br>
+		<input type="submit" id="Modifier" name="Modifier" value="Modifier">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="submit" id="Annuler" name="Annuler" value="Annuler">
+		</br>
+	  </form>
+	</div> <?php				
+	}					
+}
+        
+public function UpdateLivreAzur($db){
+	
+		try {
+				
+			$resume = $_POST['resume'];
+                        $resume = str_replace("'", "\'", $resume);
+                        $resume = str_replace("’", " ", $resume);                              
+                                             
+				
+			$sql = "UPDATE azur SET titre='".$_POST['titre']."',auteur='".$_POST['auteur']."',page='".$_POST['page']."',annee='".$_POST['annee']."', resume='".$resume. "' WHERE id='".$_GET['id']."'";
+			
+			$db->exec($sql);
+				
+			echo "Modification réussi";
+			echo '<meta http-equiv="refresh" content="0;URL=ModifLivreAzur.php?id='.$_GET['id'].'">';
+			}
+			catch(Exception $e){
+				
+				echo("<h1>Erreur : Base de données </h1>");
+				die('Erreur : ' .$e->getMessage());
+			
+			}
+}
+        
+        
   
   public function setDb(PDO $db){
     $this->_db = $db;

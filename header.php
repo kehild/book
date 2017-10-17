@@ -16,7 +16,13 @@
 	<ul id="menu-deroulant">
 		<li style="float: left"><a href="index.php">Home</a></li>
 		<li style="float: left"><a href="saisie.php">Saisir Livre</a></li>
-		<li style="float: left"><a href="livre.php">Liste Livre</a></li>
+                <li style="float: left"><a href="saisie_azur.php">Saisir Livre Azur</a></li>
+		<li style="float: left"><a href="#">Livre</a>
+                    <ul>
+                            <li><a href="livre.php">Liste Livre</a></li>
+                            <li><a href="azur.php">Collection Azur</a></li>
+                    </ul>
+                </li>
 		<li style="float: left"><a href="#">Statistique</a>
 			<ul>
 				<li><a href="statistique.php">Total</a></li>

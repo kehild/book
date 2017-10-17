@@ -19,5 +19,8 @@ include_once "bdd/connexion.php";
 </section>
 
 <?php
+/*
 include_once "footer.php";
+ * 
+ */
 ?>
