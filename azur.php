@@ -5,14 +5,15 @@ include_once "bdd/connexion.php";
 ?>
 <section>
 	<div class="transbox"  style="position:absolute">
-		<p>
-		<?php  
-		$livre = new Webservice($db);
-		$livre->ListeLivreAzur($db);
+		<?php
+			$livre = new Webservice($db); 
+			$livre->TotalAzur($db);
 		
-		if (isset($_GET['id2'])){
-			$livre->DeleteLivreAzur($db);
-		}
+			$livre->ListeLivreAzur($db);
+		
+			if (isset($_GET['id2'])){
+				$livre->DeleteLivreAzur($db);
+			}
 		?>
 		</p>
 	</div>

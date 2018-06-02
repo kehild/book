@@ -211,7 +211,7 @@ div {
 
 /* Bouton de Modification de Livre */
 
-#Modifier, #Annuler{
+#Modifier, #Annuler, #cadre{
     border-radius: 2px;
     background-color: #333;
     padding: 20px;

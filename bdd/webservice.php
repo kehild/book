@@ -159,7 +159,7 @@ public function TotalLivreTheme($db){
 
 				echo "<tr><th>"; echo $toto['COUNT(theme)']; echo "</th>";
 				echo "<th>"; echo utf8_encode($toto['theme']); echo "</th>"; 			
-				echo "<th>"; echo '<a href="DetailTheme.php?theme='.$toto['theme'].'" ><img src="image/modifier.png"></a>'; echo "</th> </tr>"; 
+				echo "<th>"; echo '<a href="DetailTheme.php?theme='.$toto['theme'].'" ><img src="image/modifier.png"></a>'; echo "</th></tr>"; 
 			
 		}
 			echo "</table>";
@@ -190,12 +190,12 @@ public function TotalLivreTheme($db){
 		$stmt = $db->prepare("select SUM(page),COUNT(tome) from book");
 		$stmt->execute();
 		
-			foreach(($stmt->fetchAll()) as $toto){
-				echo "<table id='dernier' align='center'>";
+			echo "<table id='dernier' align='center'>";				
+				echo "<tr><th>"; echo "Moyenne Page"; echo "</th></tr>";
+		
+		foreach(($stmt->fetchAll()) as $toto){
 				
-				echo "<tr><th>"; echo "Moyenne Page"; echo "</th></tr>";				
 				echo "<tr><th>"; echo (round($toto['SUM(page)'] / $toto['COUNT(tome)'])); echo "</th></tr>";
-				
 				echo "</table>";
 		}
 	}
@@ -244,12 +244,13 @@ public function TotalAuteur($db){
 
                 $premiereEntree=($pageActuelle-1)*$messagesParPage; 
                                                 
-                $retour_messages=$db->prepare("select auteur, SUM(tome) from book group by auteur order by SUM(tome) DESC LIMIT ".$premiereEntree.", ".$messagesParPage."");
+                $retour_messages=$db->prepare("select auteur, SUM(tome),round(sum(page)/sum(tome)) from book group by auteur order by SUM(tome) DESC LIMIT ".$premiereEntree.", ".$messagesParPage."");
                 $retour_messages->execute();
 			echo "<table id='dernier' align='center'>";
                                 echo "<tr><th>"; echo "Classement"; echo "</th>";
                                 echo "<th>"; echo "Total Nombre de Livre lu par Auteur"; echo "</th>";
-				echo "<th>"; echo "Auteur"; echo "</th></tr>";
+								echo "<th>"; echo "Auteur"; echo "</th>";
+								echo "<th>"; echo "Moyenne Pages"; echo "</th></tr>";
 
                                 
                 $nombre_de_lignes = 1;
@@ -257,7 +258,8 @@ public function TotalAuteur($db){
                 while($donnees_messages=$retour_messages->fetch()){ 
                              echo "<tr><th>"; echo "$nombre_de_lignes"; echo "</th>";
 				echo "<th>"; echo $donnees_messages['SUM(tome)']; echo "</th>";
-				echo "<th>"; echo utf8_encode($donnees_messages['auteur']); echo "</th></tr>";
+				echo "<th>"; echo utf8_encode($donnees_messages['auteur']); echo "</th>";
+				echo "<th>"; echo $donnees_messages['round(sum(page)/sum(tome))']; echo "</th></tr>";
 		
                                
                                 $nombre_de_lignes = $nombre_de_lignes + 1;
@@ -546,7 +548,8 @@ public function modification($db){
 		<select name="format" id="format">
 			<option value="<?php echo $toto['format']; ?>"><?php echo $toto['format']; ?></option> <!-- format en base -->
 			<option value="papier">Papier</option>
-			<option value="numerique">Numérique</option> 
+			<option value="numerique">Numérique</option>
+			<option value="numerique amazon">Numérique Amazon</option>				
 			<option value="papier/numerique">Papier / Numérique</option>		
 		</select>
 		</br>
@@ -566,6 +569,8 @@ public function modification($db){
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="submit" id="Annuler" name="Annuler" value="Annuler">
 		</br>
+		<input type="submit" id="cadre" name="cadre" value="Redimensionner l'image">
+		</br>
 	  </form>
 	</div> <?php				
 	}					
@@ -578,24 +583,7 @@ public function UpdateLivre($db){
 				$resume = $_POST['resume'];
                                 $resume = str_replace("'", "\'", $resume);
                                 $resume = str_replace("’", " ", $resume);
-                                
-                                $test = '/var/www/html/book/image/couverture/'.$_POST['image'].'';
-                                chmod("$test", 0777);
-                                
-                                /* modification de la taille de la couverture */
-                                
-                                $source = imagecreatefromjpeg('image/couverture/'.$_POST['image'].''); // La photo est la source
-                                $destination = imagecreatetruecolor(111, 177); // On crée la miniature vide
-                                // Les fonctions imagesx et imagesy renvoient la largeur et la hauteur d une image
-                                $largeur_source = imagesx($source);
-                                $hauteur_source = imagesy($source);
-                                $largeur_destination = imagesx($destination);
-                                $hauteur_destination = imagesy($destination);
-                                // On crée la nouvelle image
-                                imagecopyresampled($destination, $source, 0, 0, 0, 0, $largeur_destination, $hauteur_destination, $largeur_source, $hauteur_source);
-                                // On enregistre l'image avec la nouvelle taille
-                                //imagejpeg($destination, $test);
-                                imagejpeg($destination, 'image/couverture/'.$_POST['image'].'');                        
+                                                  
 				
 				$sql = "UPDATE book SET titre='".$_POST['titre']."',auteur='".$_POST['auteurss']."',annee='".$_POST['annee']."',theme='".$_POST['themess']."', resume='".$resume."',tome='".$_POST['tome']."',page='".$_POST['page']."',format='".$_POST['format']."',date_lecture='".$_POST['date_lecture']."',image='" .$_POST['image']. "' WHERE id='".$_GET['id']."'";
 			
@@ -648,13 +636,34 @@ public function UpdateLivre($db){
 		imagejpeg($destination, 'image/couverture/'.$_POST['file'].'');
 		
 	}
-        
+	
+		public function ModifCadre(){
+	 
+		//$test = '/var/www/html/book/image/couverture/'.$_POST['image'].'';
+        //chmod("$test", 0777);
+                                
+        /* modification de la taille de la couverture */
+                                
+        $source = imagecreatefromjpeg('image/couverture/'.$_POST['image'].''); // La photo est la source
+        $destination = imagecreatetruecolor(111, 177); // On crée la miniature vide
+        // Les fonctions imagesx et imagesy renvoient la largeur et la hauteur d une image
+        $largeur_source = imagesx($source);
+        $hauteur_source = imagesy($source);
+        $largeur_destination = imagesx($destination);
+        $hauteur_destination = imagesy($destination);
+        // On crée la nouvelle image
+        imagecopyresampled($destination, $source, 0, 0, 0, 0, $largeur_destination, $hauteur_destination, $largeur_source, $hauteur_source);
+        // On enregistre l'image avec la nouvelle taille
+        //imagejpeg($destination, $test);
+        imagejpeg($destination, 'image/couverture/'.$_POST['image'].'');   
+	
+	}	
         /*   Requete sur Collection Azur  */
         
         public function ListeLivreAzur($db){ 
             
             echo '<div class="pagination">';
-           $messagesParPage=10;
+           $messagesParPage=12;
            $retour_total=$db->prepare('SELECT COUNT(*) AS total FROM azur');
            $retour_total->execute();
            $donnees_total=$retour_total->fetch(); 
@@ -821,6 +830,25 @@ public function UpdateLivreAzur($db){
 			
 			}
 }
+
+ public	function TotalAzur($db){
+
+	$stmt = $db->prepare("select COUNT(id) from azur");
+	$stmt->execute();
+	
+		echo "<table id='dernier' align='center'>";
+			echo "<tr><th>"; echo "Total Livre Lu"; echo "</th></tr>";	
+	
+		foreach(($stmt->fetchAll()) as $toto){
+
+			echo "</tr><th>"; echo $toto['COUNT(id)']; echo "</th></tr>";
+			echo "</table>";
+		}
+	
+	} 
+  
+
+
         
         
   

@@ -11,17 +11,17 @@ include_once "bdd/webservice.php";
 			<div class="slideshow-container">
 					<div class="mySlides fade">
 					  <div class="numbertext">1 / 5</div>
-					  <img src="image/jules verne.jpg" style="width:100%">
+					  <img src="image/foret.png" style="width:100%">
 					</div>
 
 					<div class="mySlides fade">
 					  <div class="numbertext">2 / 5</div>
-					  <img src="image/librairie.jpg" style="width:100%">
+					  <img src="image/eau.jpg" style="width:100%">
 					</div>
 
 					<div class="mySlides fade">
 					  <div class="numbertext">3 / 5</div>
-					  <img src="image/sorciere.jpg" style="width:100%">
+					  <img src="image/librairie.jpg" style="width:100%">
 					</div>
 
 					<div class="mySlides fade">

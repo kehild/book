@@ -45,7 +45,8 @@ if (isset($_POST['Valider'])) {
    	 </br>
 	<select name="format" id="format">
         	<option value="papier">Papier</option>
-		<option value="numerique">Numérique</option> 
+		<option value="numerique">Numérique</option>
+		<option value="numerique amazon">Numérique Amazon</option>		
 		<option value="papier/numerique">Papier / Numérique</option>		
 	</select>
 	</br>
@@ -53,7 +54,7 @@ if (isset($_POST['Valider'])) {
    	 </br>
 	<textarea name="resume" rows="6" cols="60"></textarea>
 	</br>
-	<label for="date_lecture">Date lecture</label>
+	<label for="date_lecture">Année de lecture</label>
     	</br>
 	<input type="text" id="date_lecture" name="date_lecture">
         </br>

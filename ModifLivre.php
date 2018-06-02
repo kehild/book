@@ -14,6 +14,11 @@ include_once "bdd/connexion.php";
 			if (isset($_POST['Modifier'])) {
 				$livre->UpdateLivre($db);
 			}
+			
+			if (isset($_POST['cadre'])){
+				$livre->ModifCadre();
+				
+			}
 		?>
 	</p>
 <?php
