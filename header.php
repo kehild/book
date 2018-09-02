@@ -29,6 +29,7 @@
 				<li><a href="statistiqueTheme.php">Total par Thème</a></li>
 				<li><a href="statistiqueAuteur.php">Total par Auteur</a></li>
 				<li><a href="statistiqueAnnee.php">Année de Lecture</a><li>
+				<li><a href="statistiqueEditeur.php">Total par Editeur</a><li>
 			</ul>
 		</li>
 		<li style="float:left"><a href="actualite.php">Actualité</a><li>

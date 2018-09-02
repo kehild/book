@@ -8,7 +8,7 @@ include_once "bdd/webservice.php";
 
 if (isset($_POST['Valider'])) {
 	$livre = new Webservice($db);
-    	$livre->SaisieLivreAzur($db,$_POST['titre'],$_POST['auteur'],$_POST['page'],$_POST['annee'],$_POST['resume']);	
+    	$livre->SaisieLivreAzur($db,$_POST['titre'],$_POST['auteur'],$_POST['page'],$_POST['annee'],$_POST['statut'],$_POST['resume']);	
 }
 
 ?>
@@ -28,9 +28,17 @@ if (isset($_POST['Valider'])) {
    	 </br>
 	<input type="text" id="page" name="page">
 	</br>
-    	<label for="annee">Année</label>
-    	</br>
+	<label for="annee">Année</label>
+	</br>
 	<input type="text" id="annee" name="annee">
+	</br>
+	<label for="statut">Statut</label>
+	</br>
+	<select name="statut" id="statut">
+        <option value="acheter google">Acheter Google</option>
+		<option value="acheter amazon">Acheter Amazon</option>
+		<option value="télécharger">Télécharger</option>			
+	</select>
 	</br>
 	<label for="resume">Résumé</label>
    	 </br>

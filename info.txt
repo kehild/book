@@ -1,4 +1,4 @@
-																											
+																																	
 Ce site MyBook fait en : PHP / HTML / CSS / SQL. Il integre :
 
 - Un Carousel
@@ -7,7 +7,7 @@ Ce site MyBook fait en : PHP / HTML / CSS / SQL. Il integre :
 
 - Une base de donnees MySql.
 
-- Liste des livres lu(fiche technique : titre , auteur, nombre de tome, annnee de parution, resume, nombre de page) avec modification ou suppression
+- Liste des livres lu(fiche technique : titre , auteur, nombre de tome, annnee de parution, resume, nombre de page, annee de lecture) avec modification ou suppression
 
 - Ajout de nouveau livre
 
@@ -18,3 +18,5 @@ Ce site MyBook fait en : PHP / HTML / CSS / SQL. Il integre :
 - Le Texte est maintenant gere par l'application elle meme et non dans le code. Cela fonctionne grace un fichier texte.
 
 - Auto completion du champs auteur lors de la saisie 
+
+- Partie livre azur integre

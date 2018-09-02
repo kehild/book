@@ -45,6 +45,9 @@ include_once "bdd/webservice.php";
 				<?php		
 				$livre = new Webservice($db);
 				$livre->DernierLivreRentree($db);
+				
+				echo "</br></br>";
+				$livre->DernierAzur($db);
 				?>
 
 		<script>

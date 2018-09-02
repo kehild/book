@@ -9,7 +9,7 @@ include_once "bdd/webservice.php";
 if (isset($_POST['Valider'])) {
 	$livre = new Webservice($db);
         $livre->CadreImage(); 
-	$livre->SaisieLivre($db,$_POST['titre'],$_POST['tome'],$_POST['page'],$_POST['auteur'],$_POST['annee'],$_POST['theme'],$_POST['format'],$_POST['date_lecture'],$_POST['file']);	
+	$livre->SaisieLivre($db,$_POST['titre'],$_POST['tome'],$_POST['page'],$_POST['auteur'],$_POST['annee'],$_POST['theme'],$_POST['format'],$_POST['date_lecture'],$_POST['file'],$_POST['editeur']);	
 }
 
 ?>
@@ -29,8 +29,8 @@ if (isset($_POST['Valider'])) {
    	 </br>
 	<input type="text" id="page" name="page">
 	</br>
-    	<label for="auteur">Auteur</label>
-    	</br>
+    <label for="auteur">Auteur</label>
+    </br>
 	<input type="text" id="auteur" name="auteur">&nbsp;
 	</br>
 	<label for="annee">Année</label>
@@ -55,10 +55,14 @@ if (isset($_POST['Valider'])) {
 	<textarea name="resume" rows="6" cols="60"></textarea>
 	</br>
 	<label for="date_lecture">Année de lecture</label>
-    	</br>
+    </br>
 	<input type="text" id="date_lecture" name="date_lecture">
-        </br>
-        <label for="image">Image</label>
+    </br>
+	 <label for="editeur">Editeur</label>
+    </br>
+	<input type="text" id="editeur" name="editeur">&nbsp;
+	</br>
+    <label for="image">Image</label>
 	</br>
 	<input type="file" id="file" name="file">
 	</br>
@@ -81,6 +85,13 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#theme').autocomplete({
         serviceUrl: 'auto_theme.php',
+        dataType: 'json'
+    });
+});
+
+$(document).ready(function() {
+    $('#editeur').autocomplete({
+        serviceUrl: 'auto_editeur.php',
         dataType: 'json'
     });
 });
