@@ -1,6 +1,6 @@
 <script type="text/javascript" src="./jquery.min.js"></script>
 <?php
-include_once "header.php";
+include_once "header_livre.php";
 include_once "bdd/webservice.php";
 include_once "bdd/connexion.php";
 ?>	

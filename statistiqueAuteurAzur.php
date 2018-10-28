@@ -1,6 +1,6 @@
 <?php
-include_once "header_livre.php";
-include_once "bdd/webservice.php";
+include_once "header_azur.php";
+include_once "bdd/webservice_azur.php";
 include_once "bdd/connexion.php";
 ?>
 <body>
@@ -8,8 +8,8 @@ include_once "bdd/connexion.php";
 	<div class="transbox">
 		<p style="text-align:left">
 			<?php			
-			$livre = new Webservice($db);
-			$livre->TotalEditeur($db);
+			$livre = new Webservice_Azur($db);
+			$livre->TotalAuteur($db);
 			?>
 		</p>
 	</div>

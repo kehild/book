@@ -2,12 +2,12 @@
 <script type="text/javascript" src="./jquery.autocomplete.min.js"></script>
 
 ﻿<?php
-include_once "header.php";
+include_once "header_azur.php";
 include_once "bdd/connexion.php";
-include_once "bdd/webservice.php";
+include_once "bdd/webservice_azur.php";
 
 if (isset($_POST['Valider'])) {
-	$livre = new Webservice($db);
+	$livre = new Webservice_Azur($db);
     	$livre->SaisieLivreAzur($db,$_POST['titre'],$_POST['auteur'],$_POST['page'],$_POST['annee'],$_POST['statut'],$_POST['resume']);	
 }
 

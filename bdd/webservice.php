@@ -26,7 +26,8 @@ public function DernierLivreRentree($db){
 			echo "<th>"; echo "Thème"; echo "</th>";
 			echo "<th>"; echo "Editeur"; echo "</th>";
 			echo "<th>"; echo "Résumé"; echo "</th>";
-			echo "<th>"; echo "Format"; echo "</th></tr>";
+			echo "<th>"; echo "Format"; echo "</th>";
+			echo "<th>"; echo "Note"; echo "</th></tr>";
 			
             echo "<tr><th>"; echo "<img src='image/couverture/".$donnees['image']."'>"; echo "</th>";
 			echo "<th>"; echo $donnees['titre']; echo "</th>";
@@ -37,14 +38,15 @@ public function DernierLivreRentree($db){
 			echo "<th>"; echo $donnees['theme'];  echo "</th>";
 			echo "<th>"; echo $donnees['editeur'];  echo "</th>";
 			echo "<th>"; echo $donnees['resume']; echo "</th>";
-			echo "<th>"; echo $donnees['format']; echo "</th></tr>";
+			echo "<th>"; echo $donnees['format']; echo "</th>";
+			echo "<th>"; echo $donnees['note']; echo "</th></tr>";
 						
 			echo "</table>";
 		}
 	}   
    
  
-  public function SaisieLivre($db,$titre,$tome,$page,$auteur,$annee,$theme,$format,$date_lecture,$image,$editeur){
+  public function SaisieLivre($db,$titre,$tome,$page,$auteur,$annee,$theme,$format,$date_lecture,$image,$editeur,$note){
 		
 		try {	
 			
@@ -56,7 +58,7 @@ public function DernierLivreRentree($db){
 			$resume = str_replace("'", "\'", $resume);
 			$resume = str_replace("’", " ", $resume);
 			
-			$sql = "Insert INTO book (titre, auteur, annee, theme, resume, tome, page, format, date_lecture, image,editeur) VALUES ('$titre','$auteur','$annee','$theme',' ".$resume."','$tome','$page','$format','$date_lecture','$image','$editeur')";
+			$sql = "Insert INTO book (titre, auteur, annee, theme, resume, tome, page, format, date_lecture, image,editeur,note) VALUES ('$titre','$auteur','$annee','$theme',' ".$resume."','$tome','$page','$format','$date_lecture','$image','$editeur','$note')";
 			$db->exec($sql);
 			echo "Insertion réussi";
 
@@ -107,6 +109,7 @@ $retour_messages->execute();
 		echo "<th>"; echo "Format"; echo "</th>";
 		echo "<th>"; echo "Année Lecture"; echo "</th>";
 		echo "<th>"; echo "Editeur"; echo "</th>";
+		echo "<th>"; echo "Note"; echo "</th>";
 		echo "<th>"; echo "Résumé"; echo "</th>";
 		echo "<th>"; echo "Modifier"; echo "</th>";
 		echo "<th>"; echo "Supprimer"; echo "</th></tr>";
@@ -123,6 +126,7 @@ $retour_messages->execute();
 		echo "<th>"; echo stripslashes($donnees_messages['format']); echo "</th>";
 		echo "<th>"; echo stripslashes($donnees_messages['date_lecture']); echo "</th>";
 		echo "<th>"; echo stripslashes($donnees_messages['editeur']); echo "</th>";
+		echo "<th>"; echo stripslashes($donnees_messages['note']); echo "</th>";
 		echo "<th>"; echo (stripslashes($donnees_messages['resume'])); echo "</th>";
 		echo "<th>"; echo stripslashes('<a href="ModifLivre.php?id='.$donnees_messages['id'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 		echo "<th>"; echo stripslashes('<a href="?id1='.$donnees_messages['id'].'"><img src="image/delete.png"></a>'); echo "</th></tr>";
@@ -252,7 +256,7 @@ public function TotalAuteur($db){
                                                 
                 $retour_messages=$db->prepare("select auteur, SUM(tome),round(sum(page)/sum(tome)) from book group by auteur order by SUM(tome) DESC LIMIT ".$premiereEntree.", ".$messagesParPage."");
                 $retour_messages->execute();
-			echo "<table id='dernier' align='center'>";
+								echo "<table id='dernier' align='center'>";
                                 echo "<tr><th>"; echo "Classement"; echo "</th>";
                                 echo "<th>"; echo "Total Nombre de Livre lu par Auteur"; echo "</th>";
 								echo "<th>"; echo "Auteur"; echo "</th>";
@@ -263,9 +267,9 @@ public function TotalAuteur($db){
   
                 while($donnees_messages=$retour_messages->fetch()){ 
                              echo "<tr><th>"; echo "$nombre_de_lignes"; echo "</th>";
-				echo "<th>"; echo $donnees_messages['SUM(tome)']; echo "</th>";
-				echo "<th>"; echo utf8_encode($donnees_messages['auteur']); echo "</th>";
-				echo "<th>"; echo $donnees_messages['round(sum(page)/sum(tome))']; echo "</th></tr>";
+							echo "<th>"; echo $donnees_messages['SUM(tome)']; echo "</th>";
+							echo "<th>"; echo utf8_encode($donnees_messages['auteur']); echo "</th>";
+							echo "<th>"; echo $donnees_messages['round(sum(page)/sum(tome))']; echo "</th></tr>";
 		
                                
                                 $nombre_de_lignes = $nombre_de_lignes + 1;
@@ -526,6 +530,7 @@ public	function AuteurConnu($db){
 		echo "<th>"; echo "Annnée"; echo "</th>";
 		echo "<th>"; echo "Thème"; echo "</th>";
 		echo "<th>"; echo "Editeur"; echo "</th>";
+		echo "<th>"; echo "Note"; echo "</th>";
 		echo "<th>"; echo "Résumé"; echo "</th>";
 		echo "<th>"; echo "Modifier"; echo "</th>";
 		echo "<th>"; echo "Supprimer"; echo "</th></tr>";
@@ -540,6 +545,7 @@ public	function AuteurConnu($db){
 		echo "<th>"; echo $donnees['annee'];  echo "</th>";
 		echo "<th>"; echo $donnees['theme']; echo "</th>";
 		echo "<th>"; echo $donnees['editeur']; echo "</th>";
+		echo "<th>"; echo $donnees['note']; echo "</th>";
 		echo "<th>"; echo $donnees['resume']; echo "</th>";
 		echo "<th>"; echo '<a href="ModifLivre.php?id='.$donnees['id'].'"><img src="image/modifier.png"></a>'; echo "</th>";
 		echo "<th>"; echo '<a href="?id1='.$donnees['id'].'"><img src="image/delete.png"></a>'; echo "</th></tr>"; echo "<br>";  
@@ -584,6 +590,7 @@ public function searchAuteur($db){
 		echo "<th>"; echo "Annnée"; echo "</th>";
 		echo "<th>"; echo "Thème"; echo "</th>";
 		echo "<th>"; echo "Editeur"; echo "</th>";
+		echo "<th>"; echo "Note"; echo "</th>";
 		echo "<th>"; echo "Résumé"; echo "</th>";
 		echo "<th>"; echo "Modifier"; echo "</th>";
 		echo "<th>"; echo "Supprimer"; echo "</th></tr>";
@@ -598,6 +605,7 @@ public function searchAuteur($db){
 		echo "<th>"; echo $donnees['annee'];  echo "</th>";
 		echo "<th>"; echo $donnees['theme']; echo "</th>";
 		echo "<th>"; echo $donnees['editeur']; echo "</th>";
+		echo "<th>"; echo $donnees['note']; echo "</th>";
 		echo "<th>"; echo $donnees['resume']; echo "</th>";
 		echo "<th>"; echo '<a href="ModifLivre.php?id='.$donnees['id'].'"><img src="image/modifier.png"></a>'; echo "</th>";
 		echo "<th>"; echo '<a href="?id1='.$donnees['id'].'"><img src="image/delete.png"></a>'; echo "</th></tr>"; echo "<br>";  
@@ -684,11 +692,36 @@ public function modification($db){
 		<label for="resume">Résumé</label>
 		</br>
 		<textarea name="resume" rows="6" cols="60"><?php echo $toto['resume']; ?></textarea>
-                </br>
-                <label for="image">Image</label>
+        </br>
+        <label for="image">Image</label>
 		</br>
 		<input type="text" id="image" name="image" value="<?php echo $toto['image']; ?>">
 		</br>
+		<label for="note">Note 1 à 20</label>
+		</br>
+		<select name="note" id="note">
+			<option value="<?php echo $toto['note']; ?>"><?php echo $toto['note']; ?>/20</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>		
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>		
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>		
+		</select>
 		<input type="submit" id="Modifier" name="Modifier" value="Modifier">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="submit" id="Annuler" name="Annuler" value="Annuler">
@@ -706,11 +739,19 @@ public function UpdateLivre($db){
 		try {
 				
 				$resume = $_POST['resume'];
-                                $resume = str_replace("'", "\'", $resume);
-                                $resume = str_replace("’", " ", $resume);
+                $resume = str_replace("'", "\'", $resume);
+                $resume = str_replace("’", " ", $resume);
+				
+				$editeur  = $_POST['editeur'];
+                $editeur  = str_replace("'", "\'", $editeur);
+                $editeur  = str_replace("’", " ", $editeur);
+				
+				$titre  = $_POST['titre'];
+                $titre  = str_replace("'", "\'", $titre);
+                $titre  = str_replace("’", " ", $titre);
                                                   
 				
-				$sql = "UPDATE book SET titre='".$_POST['titre']."',auteur='".$_POST['auteurss']."',annee='".$_POST['annee']."',theme='".$_POST['themess']."', resume='".$resume."',tome='".$_POST['tome']."',page='".$_POST['page']."',format='".$_POST['format']."',date_lecture='".$_POST['date_lecture']."',image='" .$_POST['image']. "',editeur='" .$_POST['editeur']. "' WHERE id='".$_GET['id']."'";
+				$sql = "UPDATE book SET titre='".$titre."',auteur='".$_POST['auteurss']."',annee='".$_POST['annee']."',theme='".$_POST['themess']."', resume='".$resume."',tome='".$_POST['tome']."',page='".$_POST['page']."',format='".$_POST['format']."',date_lecture='".$_POST['date_lecture']."',image='" .$_POST['image']. "',editeur='" .$editeur. "',note='" .$_POST['note']. "' WHERE id='".$_GET['id']."'";
 			
 				$db->exec($sql);
 				
@@ -783,6 +824,64 @@ public function UpdateLivre($db){
         imagejpeg($destination, 'image/couverture/'.$_POST['image'].'');   
 	
 	}	
+	
+
+	   
+public function noteLivre($db){
+						
+			// Afficher dernier livre rentrer
+					
+			$stmt = $db->prepare("SELECT * FROM book ORDER BY note DESC LIMIT 15"); 
+			$stmt->execute();
+			
+			$nombre_de_lignes = 1;
+					
+		foreach(($stmt->fetchAll()) as $donnees){
+						
+			echo "<table id='dernier' align='center'>";
+			
+			 echo "<tr><th>"; echo "Classement"; echo "</th>";
+            echo "<th>"; echo "Couverture"; echo "</th>";
+			echo "<th>"; echo "Titre"; echo "</th>";
+			echo "<th>"; echo "Tome"; echo "</th>";
+			echo "<th>"; echo "Auteur"; echo "</th>";
+			echo "<th>"; echo "Nb Page"; echo "</th>";
+			echo "<th>"; echo "Année"; echo "</th>";
+			echo "<th>"; echo "Thème"; echo "</th>";
+			echo "<th>"; echo "Editeur"; echo "</th>";
+			echo "<th>"; echo "Résumé"; echo "</th>";
+			echo "<th>"; echo "Format"; echo "</th>";
+			echo "<th>"; echo "Note"; echo "</th></tr>";
+			
+			echo "<tr><th>"; echo "$nombre_de_lignes"; echo "</th>";
+            echo "<th>"; echo "<img src='image/couverture/".$donnees['image']."'>"; echo "</th>";
+			echo "<th>"; echo $donnees['titre']; echo "</th>";
+			echo "<th>"; echo $donnees['tome']; echo "</th>";
+			echo "<th>"; echo $donnees['auteur']; echo "</th>";
+			echo "<th>"; echo $donnees['page']; echo "</th>";
+			echo "<th>"; echo $donnees['annee'];  echo "</th>";
+			echo "<th>"; echo $donnees['theme'];  echo "</th>";
+			echo "<th>"; echo $donnees['editeur'];  echo "</th>";
+			echo "<th>"; echo $donnees['resume']; echo "</th>";
+			echo "<th>"; echo $donnees['format']; echo "</th>";
+			echo "<th>"; echo $donnees['note']; echo "</th></tr>";
+						
+			echo "</table>";
+			
+			 $nombre_de_lignes = $nombre_de_lignes + 1;
+		}
+	}   
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
         /*   Requete sur Collection Azur  */
         
         public function ListeLivreAzur($db){ 
@@ -895,128 +994,6 @@ public function UpdateLivre($db){
 			}
   } 
 
-  public function modification_azur($db){
-	 				
-		$stmt = $db->prepare("SELECT * FROM azur where id=' " .$_GET['id']. " '"); 
-		$stmt->execute();
-					
-		foreach(($stmt->fetchAll()) as $toto){
-		?>
-		<div>
-		  <form method="post" action="">
-		</br>
-		<label for="titre">Titre</label>
-		</br>
-		<input type="text" id="titre" name="titre" value="<?php echo $toto['titre']; ?>">
-		</br>
-		<label for="auteur">Auteur</label>
-		</br>
-		<input type="text" id="auteur" name="auteur" value="<?php echo $toto['auteur']; ?>">
-		</br>
-		<label for="page">Nombre Page</label>
-		</br>
-		<input type="text" id="page" name="page" value="<?php echo $toto['page']; ?>">
-		</br>
-		<label for="annee">Année</label>
-		</br>
-		<input type="text" id="annee" name="annee" value="<?php echo $toto['annee']; ?>">
-		</br>
-		<label for="statut">Statut</label>
-		</br>
-		<select name="statut" id="statut">
-			<option value="<?php echo $toto['statut']; ?>"><?php echo $toto['statut']; ?></option> <!-- statut en base -->
-			<option value="acheter google">Acheter Google</option>
-			<option value="acheter amazon">Acheter Amazon</option>
-			<option value="télécharger">Télécharger</option>			
-		</select>
-		</br>
-		<label for="resume">Résumé</label>
-		</br>
-		<textarea name="resume" rows="6" cols="60"><?php echo $toto['resume']; ?></textarea>
-		</br>
-		<input type="submit" id="Modifier" name="Modifier" value="Modifier">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="submit" id="Annuler" name="Annuler" value="Annuler">
-		</br>
-	  </form>
-	</div> <?php				
-	}					
-}
-        
-public function UpdateLivreAzur($db){
-	
-		try {
-				
-			$resume = $_POST['resume'];
-                        $resume = str_replace("'", "\'", $resume);
-                        $resume = str_replace("’", " ", $resume);                              
-                                             
-				
-			$sql = "UPDATE azur SET titre='".$_POST['titre']."',auteur='".$_POST['auteur']."',page='".$_POST['page']."',annee='".$_POST['annee']."', resume='".$resume. "',statut='".$_POST['statut']."' WHERE id='".$_GET['id']."'";
-			
-			$db->exec($sql);
-				
-			echo "Modification réussi";
-			echo '<meta http-equiv="refresh" content="0;URL=ModifLivreAzur.php?id='.$_GET['id'].'">';
-			}
-			catch(Exception $e){
-				
-				echo("<h1>Erreur : Base de données </h1>");
-				die('Erreur : ' .$e->getMessage());
-			
-			}
-}
-
- public	function TotalAzur($db){
-
-	$stmt = $db->prepare("select COUNT(id) from azur");
-	$stmt->execute();
-	
-		echo "<table id='dernier' align='center'>";
-			echo "<tr><th>"; echo "Total Livre Lu"; echo "</th></tr>";	
-	
-		foreach(($stmt->fetchAll()) as $toto){
-
-			echo "</tr><th>"; echo $toto['COUNT(id)']; echo "</th></tr>";
-			echo "</table>";
-		}
-	
-	}
-
-public function DernierAzur($db){
-						
-			// Afficher dernier livre rentrer
-					
-			$stmt = $db->prepare("SELECT * FROM azur ORDER BY id DESC LIMIT 2"); 
-			$stmt->execute();
-					
-			echo "<table id='dernier' align='center'>";
-			
-            echo "<tr><th>"; echo "Titre"; echo "</th>";
-			echo "<th>"; echo "Auteur"; echo "</th>";
-			echo "<th>"; echo "Page"; echo "</th>";
-			echo "<th>"; echo "Année"; echo "</th>";
-			echo "<th>"; echo "Statut"; echo "</th>";
-			echo "<th>"; echo "Résumé"; echo "</th></tr>";	
-					
-			foreach(($stmt->fetchAll()) as $donnees){
-
-			echo "<tr><th>"; echo $donnees['titre']; echo "</th>";
-			echo "<th>"; echo $donnees['auteur']; echo "</th>";
-			echo "<th>"; echo $donnees['page']; echo "</th>";
-			echo "<th>"; echo $donnees['annee'];  echo "</th>";
-			echo "<th>"; echo $donnees['statut'];  echo "</th>";
-			echo "<th>"; echo $donnees['resume']; echo "</th></tr>";
-						
-
-		}
-		echo "</table>";
-		echo "</br>";
-	}  	
-  
-
-
-        
         
   
   public function setDb(PDO $db){
